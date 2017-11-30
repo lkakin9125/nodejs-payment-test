@@ -1,0 +1,43 @@
+{
+  "name": "payment-api-test",
+  "version": "1.0.0",
+  "description": "payment api test",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm-run-all --parallel watch:server watch:build",
+    "watch:build": "webpack -d --watch",
+    "watch:server": "nodemon ./server/index.js --exec babel-node --presets es2015,stage-2"
+  },
+  "author": "Tom Lau",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-react": "^6.24.1",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "braintree": "^2.4.0",
+    "express": "^4.16.2",
+    "express-validator": "^4.3.0",
+    "jquery": "^3.2.1",
+    "material-ui": "^1.0.0-beta.22",
+    "material-ui-icons": "^1.0.0-beta.17",
+    "npm-run-all": "^4.1.2",
+    "paypal-rest-sdk": "^1.7.1",
+    "react": "^16.2.0",
+    "react-autobind": "^1.0.6",
+    "react-dom": "^16.2.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "redis": "^2.8.0",
+    "redux": "^3.7.2",
+    "webpack": "^3.8.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "style-loader": "^0.19.0"
+  }
+}
