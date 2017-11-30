@@ -4,9 +4,9 @@ import React from 'react';
 export default class RecordCheckPage extends React.Component {
     render() {
         return (
-            <div>
+            <div className="app-page">
                 Record check
-        </div>
+            </div>
         );
     }
 }

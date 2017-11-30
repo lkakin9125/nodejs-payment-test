@@ -1,8 +1,17 @@
+.app-page{
+  position: absolute;
+  top:0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: scroll;
+}
 .wrap-content{
   flex: 0  0 auto;
 }
 .weight-1{
-  flex:1  1 auto
+  flex:1  1 auto;
+  position: relative;
 }
 .app-parent{
   height: 100%;

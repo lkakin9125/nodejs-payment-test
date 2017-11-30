@@ -46,7 +46,7 @@ class App extends Component {
             <List>
 
                 <ListItem onClick={() => { this.toPage('/') }}>
-                    <ListItemText primary="Main Page" />
+                    <ListItemText primary="Create Payment" />
                 </ListItem>
 
 
