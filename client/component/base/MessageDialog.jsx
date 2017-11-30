@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import AutoBind from 'react-autobind';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 
-import UI from '../../../model/factory/UI.js';
-import Store from '../../../model/redux';
+import UI from '../../model/dao/UI.js';
+import Store from '../../model/redux';
 
 
 

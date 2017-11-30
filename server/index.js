@@ -5,6 +5,7 @@ import bodyParser from 'body-parser'
 import Validation from './validation';
 import Paypal from './payment/paypal';
 import Braintree from './payment/braintree';
+import path from 'path';
 const app = express();
 
 app.use(express.static('public'));
@@ -23,6 +24,8 @@ function responseError(res, errors, tag) {
         errors
     });
 }
+
+
 
 
 app.get(`${ServerConfig.apiSubPath}/test`, (req, res) => {
@@ -122,7 +125,10 @@ app.get(`${ServerConfig.apiSubPath}/url`, (req, res) => {
     res.send(`host: ${host}`);
 });
 
-
+//default route
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+})
 
 app.listen(ServerConfig.port, () => {
     console.log(`server start at port ${ServerConfig.port}`)

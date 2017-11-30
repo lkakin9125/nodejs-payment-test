@@ -3,12 +3,12 @@ import { render } from 'react-dom';
 import $ from 'jquery'
 import './css/CSSReset.css';
 import './css/App.css';
-class App extends React.Component {
-    render() {
-        return <p> Hello React project</p>;
-    }
-}
-// $.ready(() => {
-    console.log('$.ready')
-    render(<App />, document.getElementById('root'));
-// })
+import Router from './Router.jsx';
+
+console.log('$.ready')
+import Button from 'material-ui/Button';
+render(
+    <Router />,
+    document.getElementById('root')
+);
+

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import LoadingView from './LoadingView.jsx';
 
-import UI from '../../../model/factory/UI.js';
-import Store from '../../../model/redux';
+import UI from '../../model/dao/UI.js';
+import Store from '../../model/redux';
 
 export default class LoadingDialog extends Component {
     render() {

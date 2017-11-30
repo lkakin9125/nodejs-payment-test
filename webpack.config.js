@@ -7,21 +7,28 @@ var APP_DIR = path.resolve(__dirname, 'client');
 module.exports = [
   {
     name: 'browser',
-    entry: APP_DIR + '/index.jsx',
+    entry: [
+      'babel-polyfill',
+      APP_DIR + '/index.jsx'
+    ],
     output: {
       path: BUILD_DIR,
       filename: 'bundle.js'
     },
+    resolve: {
+      extensions: ['', '.js', '.jsx']
+    },
+    debug: true,
+    devtool: 'source-map',    
     module: {
       rules: [
         {
-          test: /\.(js|jsx)$/,
+          test: /.jsx?$/,  // Match both .js and .jsx
+          loader: 'babel-loader',          
           exclude: /node_modules/,
-          use: [
-            {
-              loader: 'babel-loader',
-            }
-          ]
+          query: {
+            presets: ['es2015', 'react']
+          }  
         },
         {
             test: /\.css$/,

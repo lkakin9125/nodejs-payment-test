@@ -1,125 +1,37 @@
-/* div#root{
-  padding-top: constant(safe-area-inset-top);
-  padding-bottom: constant(safe-area-inset-bottom);
-  padding-left: constant(safe-area-inset-left);
-  padding-right: constant(safe-area-inset-right);
-  background-color: #00f;
-} */
-
-.gallery-page .pswp__top-bar {
-    display: none;
-  }
-  
-  .zoomable-image div {
-    overflow: visible;
-  }
-  
+.wrap-content{
+  flex: 0  0 auto;
+}
+.weight-1{
+  flex:1  1 auto
+}
+.app-parent{
+  height: 100%;
+  width: 100%;
+  position: 'relative';
+  display: flex;
+  flex-direction: column;
+}
   .fast-anim {
     transition: all 500ms;
     transition-timing-function: linear;
   }
-  body .auto-complete ::-webkit-scrollbar {
+  /* body .auto-complete ::-webkit-scrollbar {
     
     width: 10px!important;
   }
   body ::-webkit-scrollbar {
     width: 0px!important;
   }
-  
-  .carpark a[href*="https://maps"],
-  .carpark a[href*="https://maps"] * {
-    /* display: none!important; */
-    pointer-events: none!important;
-    cursor: default!important;
-  }
-  
-  .carpark div[draggable="false"],
-  .carpark button[draggable="false"] {
-    display: none;
-  }
-  
-  .center-crop-image.tab-0 {
-    background-size: auto 100% !important;
-  }
-  
-  .center-crop-image {
-    background-repeat: no-repeat;
-    background-size: 100% auto !important;
-    background-position: center center;
-  }
-  
-  .keyboard-open div {
-    background: #ff0000!important;
-  }
-  
-  .zvui-pinch__scroll-wrap>.zvui-pinch__ui {
-    display: none!important;
-  }
-  
-  .flex-container {
-    display: flex!important;
-  }
-  
-  .ol-overlaycontainer-stopevent .ol-attribution {
-    display: none!important;
-  }
-  
-  .about-content h6 {
-    font-size: 1.2rem;
-  }
+  */
   
   .content-shadow {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
-  }
-  
-  .div-background-img {
-    background-size: auto 100%!important;
   }
   
   .anim {
     transition: all 1000ms;
     transition-timing-function: ease-in-out;
   }
-  
-  .nav-items {
-    transition: all 500ms!important;
-    transition-timing-function: ease-in-out;
-  }
-  
-  
-  /* for emoji */
-  
-  .emoji-container {
-    transition: all 500ms;
-    /* flex-grow: 20; */
-  }
-  
-  .collapse .emoji-mart {
-    overflow: hidden;
-    /* height: 0; */
-    /* flex-grow: 1; */
-  }
-  
-  .emoji-container .collapse {
-    overflow: hidden;
-  }
-  
-  .emoji-mart .emoji-mart-scroll {
-    height: 30vh;
-    overflow-y: scroll
-  }
-  
-  .emoji-mart-bar {
-    display: none;
-  }
-  
-  .emoji-mart,
-  .emoji-mart-search input {
-    width: 100%!important;
-  }
-  
-  
-  /* end for emoji */
   
   .expand-icon {
     -webkit-transition: transform 1000ms;
@@ -139,106 +51,6 @@
   
   .flex-parent>div {
     display: grid;
-  }
-  
-  .post-image {
-    background-size: 100% auto;
-  }
-  
-  .app-editor-container .ql-tooltip.ql-hidden {
-    display: none;
-  }
-  
-  .app-editor-container .ql-snow .ql-tooltip:not([class~='ql-hidden']) {
-    left: 5%!important;
-    right: 5%!important;
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .app-editor-container .ql-snow .ql-tooltip a {
-    flex: 0 0 auto;
-  }
-  
-  .app-editor-container .ql-snow .ql-tooltip input {
-    flex: 1 1 auto;
-  }
-  
-  .app-editor-container,
-  .app-editor-container * {
-    cursor: default!important;
-    -webkit-touch-callout: default!important;
-    -webkit-user-select: auto!important;
-    -khtml-user-select: auto!important;
-    -moz-user-select: auto!important;
-    -ms-user-select: auto!important;
-    user-select: auto!important;
-    /* background: #fefcfc; */
-  }
-  
-  @media (max-width: 4.3in) {
-    .main-cat-row {
-      padding: 0 15px!important;
-    }
-    .publish-discuss {}
-    .publish-discuss .col-8 {
-      padding-right: 20%;
-    }
-  }
-  
-  .publish-discuss .col-8 {
-    padding-right: 30%;
-  }
-  
-  .main-cat-row {
-    padding: 0 25px;
-  }
-  
-  .valign {
-    font-size: 0;
-  }
-  
-  .valign>[class*="col"] {
-    display: inline-block;
-    float: none;
-    font-size: 14px;
-    font-size: 1rem;
-    vertical-align: middle;
-  }
-  
-  .discuss-image-container img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  .quill {
-    display: flex;
-    flex-flow: column;
-    flex-direction: column;
-  }
-  
-  .ql-toolbar {
-    flex: 0 0 auto;
-  }
-  
-  .quill .ql-container {
-    flex: 1 1 auto;
-    height: auto;
-    overflow: scroll;
-    display: flex;
-    flex-flow: column;
-    flex-direction: column;
-  }
-  
-  .quill .ql-container .ql-editor {
-    flex: 1;
-  }
-  
-  .reply-content p {
-    margin-top: 10px;
-    font-family: "Microsoft Yahei UI Light";
-    padding: 0 15px;
-    opacity: 0.7;
   }
   
   html,

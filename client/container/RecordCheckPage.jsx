@@ -3,8 +3,10 @@ import React from 'react';
 
 export default class RecordCheckPage extends React.Component {
     render() {
-        <div>
-            Record check
+        return (
+            <div>
+                Record check
         </div>
+        );
     }
 }
