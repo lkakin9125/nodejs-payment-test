@@ -7,6 +7,7 @@ var initValue = {
     messagedialog: {
         open: false,
         message: "",
+        title: ""
     },
     snackbar: {
         open: false,
@@ -24,20 +25,15 @@ function setTitle(state, title) {
         title
     }
 }
-function setLoadingDialogOpen(state, open) {
+function setLoadingDialogOpen(state, payload) {
     return Object.assign({}, state, {
-        loadingdialog: {
-            open: open
-        }
+        loadingdialog: payload
     });
 }
 
-function setMessageDialog(state, open, message) {
+function setMessageDialog(state, payload) {
     return Object.assign({}, state, {
-        messagedialog: {
-            open: open,
-            message: message
-        }
+        messagedialog: payload
     });
 }
 
@@ -56,9 +52,9 @@ function setSnackbar(state, open, message, actionMessage, duration) {
 function UIReducer(state = initValue, action) {
     switch (action.type) {
         case "UI_SET_LOADING_DIALOG_OPEN":
-            return setLoadingDialogOpen(state, action.payload.open);
+            return setLoadingDialogOpen(state, action.payload);
         case "UI_SET_MESSAGE_DIALOG":
-            return setMessageDialog(state, action.payload.open, action.payload.message);
+            return setMessageDialog(state, action.payload);
         case "UI_SET_SNACKBAR":
             return setSnackbar(
                 state,

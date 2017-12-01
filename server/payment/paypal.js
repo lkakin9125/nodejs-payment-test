@@ -17,14 +17,15 @@ paypal.configure({
  * @return {Promise} it will resolve with an object: {approvalUrl,payment} which approvalUrl is the url to payment and payment is the raw response from PayPal.
  */
 async function redirecToPayment(successUrl, cancelUrl, items, description) {
+    console.log('redirecToPayment',items);
     if (items.length <= 0) {
         throw 'PayPal redirecToPayment, items is empty'
     }
     var currency = items[0].currency;
     var total = 0;
     for (var i = 0; i < items.length; i++) {
-        total += items.price
-        item.price = item.price.toFixed(2)
+        total += Number(items[i].price)
+        items[i].price = Number(items[i].price).toFixed(2)
     }
 
     var paymentJSON = {

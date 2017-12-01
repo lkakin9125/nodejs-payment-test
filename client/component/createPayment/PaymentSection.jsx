@@ -10,8 +10,8 @@ import TextField from 'material-ui/TextField';
 export default class PaymentSection extends React.Component {
 
     render() {
-        var { cardHolderName, cardNumber, cardExp, ccv, handleTextChange, handleSubmit, toSection } = this.props
-        console.log(`cardExp: ${cardExp}`);
+        var { cardHolderName, cardNumber, cardExpiration, ccv, handleTextChange, handleSubmit, toSection } = this.props
+
         return (
             <Grid container
                 alignItems="top"
@@ -48,8 +48,8 @@ export default class PaymentSection extends React.Component {
                                         id="card_exp"
                                         type="date"
                                         label="Card Expiration"
-                                        value={cardExp}
-                                        onChange={(event) => { handleTextChange('cardExp', event) }}
+                                        value={cardExpiration}
+                                        onChange={(event) => { handleTextChange('cardExpiration', event) }}
                                         InputLabelProps={{ shrink: true }} />
                                 </Grid>
                                 <Grid item xs={12}>

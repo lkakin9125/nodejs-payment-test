@@ -47,8 +47,8 @@ app.get(`${ServerConfig.apiSubPath}/get_all_record`, async (req, res) => {
 })
 
 async function paypalPayment(req, res) {
-    console.log(`add_record, req.body: ${JSON.stringify(req.body)}`);
-    var recordKey = await DbObject.addPaymentRecord(req.body);
+    // console.log(`add_record, req.body: ${JSON.stringify(req.body)}`);
+    var {recordKey} = await DbObject.addPaymentRecord(req.body);
     var host = req.get('host');
     var successUrl = `http://${host}${ServerConfig.paypalSubPath}/success/${encodeURIComponent(recordKey)}`;
     var failUrl = `http://${host}${ServerConfig.paypalSubPath}/fail/${encodeURIComponent(recordKey)}`;
@@ -59,6 +59,7 @@ async function paypalPayment(req, res) {
         "currency": req.body.currency,
         "quantity": 1
     }]
+// console.log('recordKey',recordKey);
     var { approvalUrl } = await Paypal.redirecToPayment(successUrl, failUrl, items, 'it is a payment form');
     if (approvalUrl) {
         res.send({ approvalUrl });
@@ -88,12 +89,12 @@ app.post(`${ServerConfig.apiSubPath}/payment`, Validation.paymentCheck(), async 
         return;
     }
     try {
-        switch (payment) {
+        switch (req.body.payment) {
             case 'paypal':
-                paypalPayment(req, res);
+                await paypalPayment(req, res);
                 break;
             case 'braintree':
-                baintreePayment(req, res);
+                await baintreePayment(req, res);
                 break;
         }
     } catch (err) {

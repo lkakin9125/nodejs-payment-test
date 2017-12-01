@@ -8,11 +8,18 @@ var gateway = braintree.connect({
     privateKey: 'ae002b2f3366d5c18239b6e0bb209cfc'
 });
 
-async function salse(price, nonce, option = {}) {
+var midMap = {
+    "CNY": "cny",
+    "HKD": "hkd",
+    "JPY": "jpy"
+}
+
+async function salse(price, nonce, merchantAccountId, option = {}) {
     return new Promise((resolve, reject) => {
         gateway.transaction.sale({
             amount: price,
             paymentMethodNonce: nonce,
+            merchantAccountId: merchantAccountId,
             ...option
         }, function (err, result) {
             if (err) {
@@ -25,6 +32,7 @@ async function salse(price, nonce, option = {}) {
         });
     })
 }
+
 
 export default {
     salse

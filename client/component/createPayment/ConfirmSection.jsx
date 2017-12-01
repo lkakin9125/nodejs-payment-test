@@ -77,7 +77,7 @@ export default class ConfirmSection extends React.Component {
                                     <Button raised
                                         color="primary"
                                         type="submit">
-                                        Next
+                                        Pay
                                     </Button>
                                     <Button raised
                                         onClick={toSection}

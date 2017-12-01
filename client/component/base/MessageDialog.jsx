@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import AutoBind from 'react-autobind';
-import Dialog from 'material-ui/Dialog';
+import Dialog, {
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 
 import UI from '../../model/dao/UI.js';
@@ -19,15 +24,25 @@ export default class MessageDialog extends Component {
     }
 
     render() {
-        var messagedialog = UI.getMessageDialog();
+        var messageDialog = UI.getMessageDialog();
+        console.log('messageDialog',messageDialog);
         const actions = UI.getMessageDialogAction();
 
         return (
-            <Dialog
-                modal={true}
-                actions={actions}
-                open={messagedialog.open}>
-                {messagedialog.message}
+            <Dialog open={messageDialog.open}>
+                {
+                    messageDialog.title ?
+                        <DialogTitle>{messageDialog.title}</DialogTitle> :
+                        null
+                }
+                <DialogContent>
+                    <DialogContentText>
+                        {messageDialog.message}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    {actions}
+                </DialogActions>
             </Dialog>
         );
     }

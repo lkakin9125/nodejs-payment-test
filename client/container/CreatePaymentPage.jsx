@@ -2,7 +2,8 @@ import React from 'react';
 import UI from '../model/dao/UI'
 import CreatePaymentForm from '../component/createPayment/CreatePaymentForm';
 import AutoBind from 'react-autobind'
-
+import CardValidate from 'credit-card-validation';
+import Payment from '../model/dao/Payment';
 export default class CreatePaymentPage extends React.Component {
     constructor(props) {
         super(props);
@@ -10,9 +11,9 @@ export default class CreatePaymentPage extends React.Component {
             currSection: 0,
             section: ['Order Section', 'Payment Section', 'Confirm'],
             orderSection: {
-                price: '',
-                name: "",
-                phone: "",
+                price: '100',
+                name: "Tom",
+                phone: "999",
                 currency: 'usd',
                 currencyType: [
                     'USD',
@@ -24,10 +25,10 @@ export default class CreatePaymentPage extends React.Component {
                 ]
             },
             paymentSection: {
-                cardHolderName: '',
-                cardNumber: '',
-                cardExp: '',
-                ccv: ''
+                cardHolderName: 'Tom',
+                cardNumber: '378282246310005',
+                cardExpiration: '2020-01-01',
+                ccv: '123'
             }
         }
         AutoBind(this);
@@ -73,7 +74,25 @@ export default class CreatePaymentPage extends React.Component {
         if (++currSection < section.length) {
             this.setState({ currSection })
         } else {
-            alert('submit')
+            var { cardNumber, cardHolderName, cardExpiration, ccv } = this.state.paymentSection
+            var cardType = CardValidate(cardNumber).getType();
+            var payment = 'braintree';
+            var { currency, name, price, phone } = this.state.orderSection;
+            if (cardType == 'amex' && currency != 'USD') {
+                UI.showMessageDialog('AMEX is possible to use only for USD', 'Error');
+                return;
+            }
+
+            if (cardType == 'amex' || currency == 'USD' || currency == 'EUR' || currency == 'AUD') {
+                payment = "paypal";
+            }
+            Payment.createPayment(name, phone, currency, price, payment, cardHolderName, cardNumber, ccv, cardExpiration, (err) => {
+                console.error('payment err');
+                console.error(err);
+                UI.showMessageDialog('Network Error');
+            }, (res) => {
+                console.log('payment success', res);
+            })
         }
     }
     /**

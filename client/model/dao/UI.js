@@ -4,6 +4,7 @@ import Button from 'material-ui/Button';
 import Theme from "../../theme/theme";
 const defaultMessageDialogAction = [
     <Button
+        key={'default'}
         color="primary"
         onClick={closeMessageDialog}>
         OK
@@ -23,21 +24,21 @@ function getLoadingDialog() {
     return getState().loadingdialog;
 }
 
-function setLoadingDialogOpen(open) {
-    Store.dispatch({ type: "UI_SET_LOADING_DIALOG_OPEN", payload: { open: open } });
+function setLoadingDialogOpen(open, title = "") {
+    Store.dispatch({ type: "UI_SET_LOADING_DIALOG_OPEN", payload: { title, open } });
 }
 
 function getMessageDialog() {
     return getState().messagedialog;
 }
 
-function showMessageDialog(message, action = defaultMessageDialogAction) {
+function showMessageDialog(message, title = "", action = defaultMessageDialogAction) {
     messageDialogAction = action;
-    Store.dispatch({ type: "UI_SET_MESSAGE_DIALOG", payload: { open: true, message: message } });
+    Store.dispatch({ type: "UI_SET_MESSAGE_DIALOG", payload: { title, open: true, message } });
 }
 
 function closeMessageDialog() {
-    Store.dispatch({ type: "UI_SET_MESSAGE_DIALOG", payload: { open: false, message: "" } });
+    Store.dispatch({ type: "UI_SET_MESSAGE_DIALOG", payload: { title: "", open: false, message: "" } });
 }
 
 function getMessageDialogAction() {

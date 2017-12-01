@@ -5,7 +5,6 @@ import { check,validationResult } from 'express-validator/check';
 
 const sampleRecord = {
     name:'',
-    // refNum:'',
     payment:'',
     phone:'',
     currency:'',
