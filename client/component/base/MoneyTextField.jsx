@@ -17,18 +17,19 @@ class NumberFormatCustom extends React.Component {
                     });
                 }}
                 thousandSeparator
+
             //prefix="$"
             />
         );
     }
 }
 
-export default class FormattedInputs extends React.Component {
+export default class MoneyTextField extends React.Component {
 
     render() {
-        var { label, value, onChange, id, fullWidth } = this.props;
+        var { label, value, onChange, id, fullWidth,required } = this.props;
         return (
-            <FormControl fullWidth={!!fullWidth}>
+            <FormControl fullWidth={!!fullWidth} required={required}>
                 {
                     label ?
                         <InputLabel
@@ -38,6 +39,7 @@ export default class FormattedInputs extends React.Component {
                         null
                 }
                 <Input
+                
                     id={id}
                     value={value}
                     onChange={onChange}
@@ -53,8 +55,8 @@ export default class FormattedInputs extends React.Component {
     }
 }
 
-FormattedInputs.propTypes = {
-    value: PropTypes.number.isRequired,
+MoneyTextField.propTypes = {
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onChange: PropTypes.func,
     label: PropTypes.string,
     id: PropTypes.string

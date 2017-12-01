@@ -80,7 +80,6 @@ class App extends Component {
                                 <Typography type="title" color="inherit" style={{ flex: 1 }}>
                                     {UI.getTitle()}
                                 </Typography>
-                                <Button color="contrast">Login</Button>
                             </Toolbar>
                         </AppBar>
 
