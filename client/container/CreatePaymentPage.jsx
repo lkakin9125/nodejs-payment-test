@@ -112,6 +112,7 @@ class CreatePaymentPage extends React.Component {
             var cardType = CardValidate(cardNumber).getType();
             var payment = 'braintree';
             var { currency, name, price, phone } = this.state.orderSection;
+            price = price.replaceAll(',','');
             if (cardType == 'amex' && currency != 'USD') {
                 UI.showMessageDialog('AMEX is possible to use only for USD', 'Error');
                 return;
