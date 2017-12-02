@@ -79,7 +79,7 @@ async function addPaymentRecord(record) {
                     replies,
                     recordKey
                 });
-                // redisClient.save();
+                redisClient.save();
             }
         })
     })
@@ -153,6 +153,7 @@ async function updateRefNum(recordKey, refNum) {
                 reject(err);
             } else {
                 resolve(data);
+                redisClient.save();
             }
         });
     })

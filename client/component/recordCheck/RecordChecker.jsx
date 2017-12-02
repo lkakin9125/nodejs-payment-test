@@ -96,8 +96,8 @@ export default class RecordCheckPage extends React.Component {
         var { dialog, onDialogClose } = this.props;
         return (
             [
-                <Grid container style={{ height: '100%' }} direction={'column'}>
-                    <Grid item >
+                <Grid container style={{ height: '100%' }} className="checker" direction={'column'} wrap="nowrap">
+                    <Grid item style={{flex:'0 0'}}>
                         <Grid container
                             alignItems="top"
                             justify="center" >
@@ -106,7 +106,7 @@ export default class RecordCheckPage extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item >
+                    <Grid item style={{flex:'1 1'}}>
                         <Grid container
                             alignItems="top"
                             justify="center" >
