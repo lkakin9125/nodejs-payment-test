@@ -51,7 +51,7 @@ class App extends Component {
 
 
                 <ListItem onClick={() => { this.toPage('/record_check') }}>
-                    <ListItemText primary="Record Check Page" />
+                    <ListItemText primary="Check Record" />
                 </ListItem>
 
             </List>
