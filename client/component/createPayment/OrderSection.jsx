@@ -5,7 +5,7 @@ import Card, { CardActions, CardContent } from 'material-ui/Card';
 // import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
 import { FormControl, FormHelperText, FormLabel, FormControlLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
-
+import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import MoneyTextField from '../base/MoneyTextField.jsx';
 
@@ -82,7 +82,7 @@ export default class OrderSection extends React.Component {
                                         type="submit">
                                         Next
                                     </Button>
-                                    
+
                                 </Grid>
                             </Grid>
                         </form>
@@ -92,4 +92,15 @@ export default class OrderSection extends React.Component {
 
         )
     }
+}
+
+OrderSection.propTypes = {
+    price: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+    name: PropTypes.string,
+    phone: PropTypes.string,
+    currencyType: PropTypes.arrayOf(PropTypes.string),
+    currency: PropTypes.string,
+    handleRadioButtonChange: PropTypes.func,
+    handleTextChange: PropTypes.func,
+    handleSubmit: PropTypes.func
 }

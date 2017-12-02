@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
-// import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
+import PropTypes from 'prop-types';
 import { FormControl, FormHelperText, FormLabel, FormControlLabel } from 'material-ui/Form';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import TextField from 'material-ui/TextField';
@@ -87,3 +87,13 @@ export default class PaymentSection extends React.Component {
         )
     }
 }
+
+PaymentSection.propTypes = {
+    cardHolderName: PropTypes.string,
+    cardNumber: PropTypes.oneOf(PropTypes.string, PropTypes.number),
+    cardExpiration: PropTypes.string,
+    ccv: PropTypes.oneOf(PropTypes.string, PropTypes.number),
+    handleTextChange: PropTypes.func,
+    handleSubmit: PropTypes.func,
+    toSection: PropTypes.func
+} 

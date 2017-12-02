@@ -4,6 +4,7 @@ import Grid from 'material-ui/Grid';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import AutoBind from 'react-autobind';
+import PropTypes from 'prop-types';
 export default class ConfirmSection extends React.Component {
 
     constructor(props) {
@@ -95,4 +96,11 @@ export default class ConfirmSection extends React.Component {
 
         )
     }
+}
+
+ConfirmSection.propTypes = {
+    toSection: PropTypes.func,
+    handleSubmit: PropTypes.func,
+    orderSection: PropTypes.object,
+    paymentSection: PropTypes.object,
 }

@@ -12,6 +12,8 @@ import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 import OrderSection from './OrderSection';
 import PaymentSection from './PaymentSection';
 import ConfirmSection from './ConfirmSection';
+import PropTypes from 'prop-types';
+
 export default class CreatePaymentForm extends React.Component {
 
     renderSectionDom() {
@@ -78,4 +80,15 @@ export default class CreatePaymentForm extends React.Component {
             </Grid>
         )
     }
+}
+
+CreatePaymentForm.propTypes = {
+    currSection: PropTypes.number,
+    orderSection: PropTypes.object,
+    paymentSection: PropTypes.object,
+    handleRadioButtonChange: PropTypes.func,
+    handleTextChange: PropTypes.func,
+    handleSubmit: PropTypes.func,
+    toSection: PropTypes.func,
+    section: PropTypes.arrayOf(PropTypes.string)
 }
