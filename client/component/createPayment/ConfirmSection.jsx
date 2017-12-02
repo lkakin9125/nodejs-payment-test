@@ -43,7 +43,7 @@ export default class ConfirmSection extends React.Component {
             )
         }
         return (
-            <Table >
+            <Table className="valign">
                 <TableHead>
                     <TableRow>
                         <TableCell>Field Name</TableCell>

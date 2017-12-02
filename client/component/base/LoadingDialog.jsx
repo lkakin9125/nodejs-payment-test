@@ -7,12 +7,14 @@ import Dialog, {
 } from 'material-ui/Dialog';
 import LoadingView from './LoadingView.jsx';
 
+import withWidth from 'material-ui/utils/withWidth';
 import UI from '../../model/dao/UI.js';
 import Store from '../../model/redux';
 
 export default class LoadingDialog extends Component {
     render() {
         var loadingDialog = UI.getLoadingDialog();
+
         return (
             // <Dialog
             //     modal={true}
@@ -27,7 +29,7 @@ export default class LoadingDialog extends Component {
                 }
                 <DialogContent>
                     <DialogContentText>
-                        <LoadingView isCenter={false} />
+                        <LoadingView className="loading-dialog" isCenter={false} />
                     </DialogContentText>
                 </DialogContent>
             </Dialog>

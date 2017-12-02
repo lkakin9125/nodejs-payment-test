@@ -8,15 +8,23 @@ export default class RecordCheckPage extends React.Component {
     constructor(props) {
         super(props);
         AutoBind(this);
+        this.initDialog = {
+            name: '',
+            phone: '',
+            price: '',
+            currency: '',
+            title: '',
+            open: false
+        }
         this.state = {
             loading: true,
             searchText: '',
-            records: []
+            records: [],
+            dialog: this.initDialog
         }
-        
+
     }
     componentWillMount() {
-        UI.setLoadingDialogOpen(true,"loading");
         this.unSub = Store.subscribe(() => {
             this.filterRecord();
         })
@@ -49,11 +57,27 @@ export default class RecordCheckPage extends React.Component {
         }
         this.setState({ records });
     }
+    onSelectItem(record) {
+        var dialog = {
+            ...this.initDialog,
+            ...record,
+            title: `${record.name} - ${record.refNum}`,
+            open: true
+        }
+        this.setState({ dialog });
+    }
+    onDialogClose() {
+        var nextDialogState = this.state.dialog;
+        nextDialogState.open = false;
+        this.setState({ dialog: nextDialogState })
+    }
     render() {
         return (
             <div className="app-page">
                 <RecordChecker
                     {...this.state}
+                    onSelectItem={this.onSelectItem}
+                    onDialogClose={this.onDialogClose}
                     filterRecord={this.filterRecord}
                     handleTextChange={this.handleTextChange} />
             </div>

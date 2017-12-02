@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { CircularProgress } from 'material-ui/Progress';
 import PropTypes from 'prop-types';
-
+import Grid from 'material-ui/Grid';
 class LoadingView extends Component {
     constructor(props) {
         super(props);
@@ -10,35 +10,41 @@ class LoadingView extends Component {
     renderLoading() {
         return (
             // <Segment>
-                // <Dimmer active>
-                <CircularProgress  />
-                // </Dimmer>
+            // <Dimmer active>
+            <CircularProgress />
+            // </Dimmer>
 
             // </Segment>
         )
     }
     render() {
         var loadingContent = (
-            <div style={{ display: 'flex', flexDirection: 'row', ...this.props.containerStyle }}>
-                <div style={{ flex: '0 0 auto' }}>
+            <Grid container
+                alignItems="center"
+                justify="center"
+                direction="row"
+                className={this.props.className}
+                style={{ ...this.props.containerStyle }} >
+                <Grid item style={{ flex: '0 0 auto' }} >
                     {this.renderLoading()}
-                </div>
-                <div style={{
+                </Grid>
+                <Grid item style={{
                     flex: '1 1 auto',
-                    position: 'relative',
+                    marginLeft: 10
+                    //position: 'relative',
                 }}>
-                    <div
+                    {/* <div
                         style={{
                             left: '10%',
                             right: 0,
                             position: 'absolute',
                             bottom: 15,
                             overflowX: 'visible',
-                        }}>
-                        Loading...
-                    </div>
-                </div>
-            </div>
+                        }}> */}
+                    Loading...
+                    {/* </div> */}
+                </Grid>
+            </Grid>
         );
 
         return (
@@ -66,13 +72,15 @@ class LoadingView extends Component {
 LoadingView.propTypes = {
     isCenter: PropTypes.bool,
     containerStyle: PropTypes.object,
-    color: PropTypes.string
+    color: PropTypes.string,
+    className: PropTypes.string
 }
 
 LoadingView.defaultProps = {
     isCenter: true,
     containerStyle: {},
-    color: '#fff'
+    color: '#fff',
+    className: ''
 }
 
 export default LoadingView;

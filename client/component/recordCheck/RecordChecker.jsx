@@ -11,7 +11,7 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import LoadingView from '../base/LoadingView';
 import IconButton from 'material-ui/IconButton';
-
+import RecordDialog from './RecordDialog';
 export default class RecordCheckPage extends React.Component {
     constructor(props) {
         super(props);
@@ -46,7 +46,7 @@ export default class RecordCheckPage extends React.Component {
     }
 
     renderSearchContent() {
-        var { records, searchText } = this.props;
+        var { records, searchText, onSelectItem } = this.props;
         var contentDom = null;
         if (records.length == 0) {
             if (searchText) {
@@ -70,7 +70,7 @@ export default class RecordCheckPage extends React.Component {
                 {
                     records.map((r, index) => {
                         return [
-                            <ListItem key={`item_${index}`} button>
+                            <ListItem key={`item_${index}`} button onClick={() => { onSelectItem(r) }}>
                                 <ListItemText primary={r.name} secondary={r.refNum} />
                             </ListItem>,
                             <Divider key={`divider_${index}`} light />
@@ -91,33 +91,36 @@ export default class RecordCheckPage extends React.Component {
     }
 
     render() {
-        console.log('recordchecker render', this.props);
+        var { dialog, onDialogClose } = this.props;
         return (
-            <Grid container style={{ height: '100%' }} direction={'column'}>
-                <Grid item >
-                    <Grid container
-                        alignItems="top"
-                        justify="center" >
-                        <Grid item xs={8} sm={8} md={11} >
-                            {this.renderSearchCard()}
+            [
+                <Grid container style={{ height: '100%' }} direction={'column'}>
+                    <Grid item >
+                        <Grid container
+                            alignItems="top"
+                            justify="center" >
+                            <Grid item xs={8} sm={8} md={11} >
+                                {this.renderSearchCard()}
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-                {/* <Grid item xs={12}> */}
-                <Grid item >
-                    <Grid container
-                        alignItems="top"
-                        justify="center" >
-                        <Grid item xs={8} sm={8} md={11} >
-                            {
-                                this.props.loading ?
-                                    <LoadingView /> :
-                                    this.renderSearchContent()
-                            }
+                    {/* <Grid item xs={12}> */}
+                    <Grid item >
+                        <Grid container
+                            alignItems="top"
+                            justify="center" >
+                            <Grid item xs={8} sm={8} md={11} >
+                                {
+                                    this.props.loading ?
+                                        <LoadingView /> :
+                                        this.renderSearchContent()
+                                }
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </Grid>
+                </Grid>,
+                <RecordDialog {...dialog} onClose={onDialogClose} />
+            ]
         );
     }
 }
