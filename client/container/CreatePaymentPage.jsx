@@ -50,7 +50,7 @@ class CreatePaymentPage extends React.Component {
                         color="primary"
                         onClick={() => {
                             UI.closeMessageDialog();
-                            this.props.history.push('/');
+                            this.props.history.replace('/');
                         }}>
                         OK
                     </Button>
@@ -63,7 +63,7 @@ class CreatePaymentPage extends React.Component {
                         color="primary"
                         onClick={() => {
                             UI.closeMessageDialog();
-                            this.props.history.push('/');
+                            this.props.history.replace('/');
                         }}>
                         OK
                     </Button>
@@ -122,10 +122,13 @@ class CreatePaymentPage extends React.Component {
                 payment = "paypal";
             }
             Payment.createPayment(name, phone, currency, price, payment, cardHolderName, cardNumber, ccv, cardExpiration, (err) => {
-                if (typeof err == 'object' && err.status == -1) {
+                var isErrObject = typeof err == 'object';
+                if (isErrObject && err.status == -2) {
                     console.error('payment is not paypal or braintree')
                     UI.showMessageDialog('Data Error, Please re-enter your input', "Error");
                     UI.setLoadingDialogOpen(false);
+                } else if (isErrObject && err.status == -1) {
+                    this.props.history.replace('/fail')
                 } else {
                     console.error('payment err');
                     console.error(err);
