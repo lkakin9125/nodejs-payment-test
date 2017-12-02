@@ -52,13 +52,15 @@ export default class RecordCheckPage extends React.Component {
             if (searchText) {
                 contentDom = (
                     <Grid container
+                        style={{ padding: 15 }}
+                        direction={'column'}
                         alignItems="center"
                         justify="center" >
-                        <Grid item xs={12}>
-                            <AlertIcon />
+                        <Grid item >
+                            <AlertIcon style={{height:100,width:100,color:'#aaa'}} />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Typography align="center">
+                        <Grid item >
+                            <Typography align="center" type="title">
                                 Result Not Found
                             </Typography>
                         </Grid>
@@ -104,7 +106,6 @@ export default class RecordCheckPage extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    {/* <Grid item xs={12}> */}
                     <Grid item >
                         <Grid container
                             alignItems="top"
