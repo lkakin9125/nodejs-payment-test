@@ -13,10 +13,10 @@ class CreatePaymentPage extends React.Component {
             currSection: 0,
             section: ['Order Section', 'Payment Section', 'Confirm'],
             orderSection: {
-                price: '100',
-                name: "Tom",
-                phone: "999",
-                currency: 'usd',
+                price: '',
+                name: "",
+                phone: "",
+                currency: '',
                 currencyType: [
                     'USD',
                     'HKD',
@@ -27,10 +27,10 @@ class CreatePaymentPage extends React.Component {
                 ]
             },
             paymentSection: {
-                cardHolderName: 'Tom',
-                cardNumber: '4012888888881881',
-                cardExpiration: '2020-01-01',
-                ccv: '123'
+                cardHolderName: '',
+                cardNumber: '',
+                cardExpiration: '',
+                ccv: ''
             }
         }
         AutoBind(this);
