@@ -2,6 +2,7 @@ import Store from '../redux';
 import Config from '../../config.js';
 import Network from '../../util/network';
 import braintree from 'braintree-web';
+
 function getState() {
     return Store.getState().paymentRecord;
 }
@@ -56,7 +57,7 @@ function createPayment(name, phone, currency, price, payment, holderName, cardNu
 function downloadAllRecord(onError, onSucc) {
     Network.ajaxApi('get_all_record', 'get', {}, onError, (response) => {
         console.log('downloadAllRecord', response);
-        Store.dispatch({ type: 'PAYMENT_RECORD_INIT', payload: { records: response.records } })
+        Store.dispatch({ type: 'PAYMENT_RECORD_INIT', payload: response })
         if (onSucc) {
             onSucc();
         }

@@ -6,6 +6,9 @@ import Validation from './validation';
 import Paypal from './payment/paypal';
 import Braintree from './payment/braintree';
 import path from 'path';
+import SocketIO from './socketio';
+import http from 'http';
+
 const app = express();
 
 app.use(express.static('public'));
@@ -37,7 +40,7 @@ app.get(`${ServerConfig.apiSubPath}/test`, async (req, res) => {
     //     test: 'it is test2'
     // });
     // await DbObject.updateRefNum('record:1512181020548:Tom:paypal', 'PAY-6P302446Y0724240LLIRA2HQ');
-    await DbObject.testHset();
+    SocketIO.sendToAllClient(ServerConfig.updatePaymentChannel, 'asdsada');
     res.send({
         test: 'it is test2'
     });
@@ -47,7 +50,7 @@ app.get(`${ServerConfig.apiSubPath}/get_all_record`, async (req, res) => {
     try {
         var records = await DbObject.getAllRecord();
         var lastUpdateTime = await DbObject.getLastUpdate();
-        successApiResponse(res, { records,lastUpdateTime })
+        successApiResponse(res, { records, lastUpdateTime })
     } catch (err) {
         responseError(res, err, 'get_all_record')
     }
@@ -76,14 +79,25 @@ async function paypalPayment(req, res) {
 }
 async function baintreePayment(req, res) {
     var result = await Braintree.salse(req.body.price, req.body.nonce, Braintree.findMerchantAccountId(req.body.currency));
-    
+
     var record = {
         ...req.body,
         refNum: result.transaction.id
     }
     delete record.nonce;
     await DbObject.addPaymentRecord(record);
+    sendLastUpdateToAllClient();
     successApiResponse(res, { refNum: result.transaction.id });
+}
+
+async function sendLastUpdateToAllClient() {
+    try {
+        var lastUpdateTime = await DbObject.getLastUpdate();
+        SocketIO.sendToAllClient(ServerConfig.updatePaymentChannel, JSON.stringify({ lastUpdateTime }));
+    } catch (e) {
+        console.error('sendLastUpdateToAllClient err');
+        console.error(e);
+    }
 }
 
 app.post(`${ServerConfig.apiSubPath}/payment`, Validation.paymentCheck(), async (req, res) => {
@@ -130,10 +144,13 @@ app.get(`${ServerConfig.paypalSubPath}/success/:recordKey/paypal`, async (req, r
     try {
         console.log('update db start');
         await DbObject.updateRefNum(req.params.recordKey, paymentId);
+        sendLastUpdateToAllClient();
         console.log('update db done');
     } catch (err) {
         console.error('payment success, but db err', err);
     }
+
+
     res.redirect(`/success/${payerId}`);
 })
 
@@ -154,6 +171,12 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'index.html'));
 })
 
-app.listen(ServerConfig.port, () => {
+// app.listen(ServerConfig.port, () => {
+//     console.log(`server start at port ${ServerConfig.port}`)
+// });
+
+var server = http.createServer(app);
+SocketIO.init(server);
+server.listen(3000, () => {
     console.log(`server start at port ${ServerConfig.port}`)
 });

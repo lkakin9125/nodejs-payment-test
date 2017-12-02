@@ -16,6 +16,9 @@ import MessageDialog from './component/base/MessageDialog.jsx';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
+import SocketIO from './util/socket';
+import Config from './config';
+
 const theme = createMuiTheme(Theme);
 
 class App extends Component {
@@ -63,7 +66,7 @@ class App extends Component {
             <MuiThemeProvider theme={theme}>
                 <div className="app-parent">
                     <div className="wrap-content">
-                        <Drawer open={this.state.drawerOpen} onRequestClose={()=>{this.openDrawer(false)}}>
+                        <Drawer open={this.state.drawerOpen} onRequestClose={() => { this.openDrawer(false) }}>
                             <div style={{ width: 250 }}>
                                 {this.renderDrawerList()}
                             </div>
@@ -98,6 +101,11 @@ class App extends Component {
 
     componentWillMount() {
         this.unsubscribeStore = Store.subscribe(() => { this.forceUpdate(); });
+        SocketIO.connectSocket(() => {
+            SocketIO.addChannelListener(Config.updatePaymentChannel, 'userApp', (data) => {
+                console.log('socket message come', data);
+            })
+        })
     }
     componentWillUnmount() {
         this.unsubscribeStore();

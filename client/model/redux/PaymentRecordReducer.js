@@ -1,5 +1,6 @@
 var initValue = {
-    records: null
+    records: null,
+    lastUpdateTime: 0
 };
 
 function PaymentReducer(state = initValue, action) {
@@ -19,7 +20,8 @@ function init(state, payload) {
     console.log('payment init, payload', payload);
     return {
         ...state,
-        records: [...payload.records]
+        records: [...payload.records],
+        lastUpdateTime: payload.lastUpdateTime
     }
 }
 
