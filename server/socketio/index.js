@@ -26,6 +26,9 @@ function init(server) {
  * @param {string} message 
  */
 function sendToAllClient(channel, message) {
+    if (typeof message != 'string') {
+        message = JSON.stringify(message);
+    }
     for (var key in clientMap) {
         try {
             if (clientMap[key]) {

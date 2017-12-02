@@ -18,7 +18,7 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import SocketIO from './util/socket';
 import Config from './config';
-
+import Payment from './model/dao/Payment';
 const theme = createMuiTheme(Theme);
 
 class App extends Component {
@@ -103,7 +103,19 @@ class App extends Component {
         this.unsubscribeStore = Store.subscribe(() => { this.forceUpdate(); });
         SocketIO.connectSocket(() => {
             SocketIO.addChannelListener(Config.updatePaymentChannel, 'userApp', (data) => {
-                console.log('socket message come', data);
+                console.log('socket userApp data ', data);
+
+                if (data.lastUpdateTime > Payment.getLastUpdateTime()) {
+                    Payment.downloadAllRecord(
+                        (err) => {
+                            console.error('socket downloadAllRecord error')
+                            console.error(error);
+                        }, () => {
+                            console.log('download done in socket');
+                        }
+                    )
+                }
+
             })
         })
     }

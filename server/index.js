@@ -40,7 +40,7 @@ app.get(`${ServerConfig.apiSubPath}/test`, async (req, res) => {
     //     test: 'it is test2'
     // });
     // await DbObject.updateRefNum('record:1512181020548:Tom:paypal', 'PAY-6P302446Y0724240LLIRA2HQ');
-    SocketIO.sendToAllClient(ServerConfig.updatePaymentChannel, 'asdsada');
+    SocketIO.sendToAllClient(ServerConfig.updatePaymentChannel, { lastUpdateTime: new Date().getTime() });
     res.send({
         test: 'it is test2'
     });

@@ -4,6 +4,7 @@ import AutoBind from 'react-autobind'
 import Store from '../model/redux'
 import Payment from '../model/dao/Payment'
 import RecordChecker from '../component/recordCheck/RecordChecker';
+import SocketIO from '../util/socket';
 export default class RecordCheckPage extends React.Component {
     constructor(props) {
         super(props);
@@ -16,13 +17,14 @@ export default class RecordCheckPage extends React.Component {
             title: '',
             open: false
         }
+        var records = Payment.getAllValidRecord();
         this.state = {
-            loading: true,
+            loading: records.length > 0,
             searchText: '',
-            records: [],
+            records: records,
             dialog: this.initDialog
         }
-
+        this.keepConnectSocket = true;
     }
     componentWillMount() {
         this.unSub = Store.subscribe(() => {
@@ -38,6 +40,7 @@ export default class RecordCheckPage extends React.Component {
         )
         UI.setTitle('Check Payment')
     }
+
     componentWillUnmount() {
         this.unSub();
     }

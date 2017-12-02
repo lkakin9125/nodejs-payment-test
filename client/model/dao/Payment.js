@@ -75,9 +75,14 @@ function getAllValidRecord() {
         }) :
         [];
 }
+
+function getLastUpdateTime() {
+    return getState().lastUpdateTime;
+}
 export default {
     createPayment,
     downloadAllRecord,
     getAllRecord,
-    getAllValidRecord
+    getAllValidRecord,
+    getLastUpdateTime
 }
