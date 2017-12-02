@@ -50,8 +50,8 @@ export default class CreatePaymentForm extends React.Component {
         var { section, currSection, toSection } = this.props
 
         return (
-            <Grid container>
-                <Grid item xs={12}>
+            <Grid container direction={'column'}>
+                <Grid item >
                     <Grid container
                         alignItems="top"
                         justify="center" >
@@ -72,7 +72,7 @@ export default class CreatePaymentForm extends React.Component {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item >
                     {this.renderSectionDom()}
                 </Grid>
             </Grid>

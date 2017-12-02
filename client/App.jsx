@@ -63,7 +63,7 @@ class App extends Component {
             <MuiThemeProvider theme={theme}>
                 <div className="app-parent">
                     <div className="wrap-content">
-                        <Drawer open={this.state.drawerOpen} onRequestClose={this.openDrawer}>
+                        <Drawer open={this.state.drawerOpen} onRequestClose={()=>{this.openDrawer(false)}}>
                             <div style={{ width: 250 }}>
                                 {this.renderDrawerList()}
                             </div>

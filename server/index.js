@@ -76,11 +76,13 @@ async function paypalPayment(req, res) {
 }
 async function baintreePayment(req, res) {
     var result = await Braintree.salse(req.body.price, req.body.nonce, Braintree.findMerchantAccountId(req.body.currency));
+    
     var record = {
         ...req.body,
         refNum: result.transaction.id
     }
-    await DbObject.addPaymentRecord(req.body);
+    delete record.nonce;
+    await DbObject.addPaymentRecord(record);
     successApiResponse(res, { refNum: result.transaction.id });
 }
 

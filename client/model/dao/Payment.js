@@ -3,7 +3,7 @@ import Config from '../../config.js';
 import Network from '../../util/network';
 import braintree from 'braintree-web';
 function getState() {
-    return Store.getState();
+    return Store.getState().paymentRecord;
 }
 
 function paypalPayment(paymentRecord, onErr, onSucc) {
@@ -55,6 +55,7 @@ function createPayment(name, phone, currency, price, payment, holderName, cardNu
 
 function downloadAllRecord(onError, onSucc) {
     Network.ajaxApi('get_all_record', 'get', {}, onError, (response) => {
+        console.log('downloadAllRecord', response);
         Store.dispatch({ type: 'PAYMENT_RECORD_INIT', payload: { records: response.records } })
         if (onSucc) {
             onSucc();
@@ -65,9 +66,17 @@ function downloadAllRecord(onError, onSucc) {
 function getAllRecord() {
     return getState().records;
 }
-
+function getAllValidRecord() {
+    var records = getAllRecord();
+    return records ?
+        records.filter((r) => {
+            return r.refNum;
+        }) :
+        [];
+}
 export default {
     createPayment,
     downloadAllRecord,
-    getAllRecord
+    getAllRecord,
+    getAllValidRecord
 }

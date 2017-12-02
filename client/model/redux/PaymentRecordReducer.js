@@ -16,6 +16,7 @@ function PaymentReducer(state = initValue, action) {
 }
 
 function init(state, payload) {
+    console.log('payment init, payload', payload);
     return {
         ...state,
         records: [...payload.records]
