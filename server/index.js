@@ -35,16 +35,6 @@ function successApiResponse(res, object) {
 
 
 
-app.get(`${ServerConfig.apiSubPath}/test`, async (req, res) => {
-    // res.send({
-    //     test: 'it is test2'
-    // });
-    // await DbObject.updateRefNum('record:1512181020548:Tom:paypal', 'PAY-6P302446Y0724240LLIRA2HQ');
-    SocketIO.sendToAllClient(ServerConfig.updatePaymentChannel, { lastUpdateTime: new Date().getTime() });
-    res.send({
-        test: 'it is test2'
-    });
-});
 
 app.get(`${ServerConfig.apiSubPath}/get_all_record`, async (req, res) => {
     try {
@@ -160,10 +150,6 @@ app.get(`${ServerConfig.paypalSubPath}/fail/:recordKey/paypal`, (req, res) => {
 
 })
 
-app.get(`${ServerConfig.apiSubPath}/url`, (req, res) => {
-    var host = req.get('host');
-    res.send(`host: ${host}`);
-});
 
 
 //default route
@@ -171,9 +157,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'index.html'));
 })
 
-// app.listen(ServerConfig.port, () => {
-//     console.log(`server start at port ${ServerConfig.port}`)
-// });
 
 var server = http.createServer(app);
 SocketIO.init(server);
