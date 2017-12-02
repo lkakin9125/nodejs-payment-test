@@ -98,20 +98,23 @@ app.post(`${ServerConfig.apiSubPath}/payment`, Validation.paymentCheck(), async 
         console.log('is error');
         var errorMsg = errors.mapped()
         console.log('errorMsg', errorMsg);
-        responseError(res, errorMsg, 'add_record')
+        responseError(res, errorMsg, 'payment')
         return;
     }
     try {
         switch (req.body.payment) {
             case 'paypal':
                 await paypalPayment(req, res);
-                break;
+                return;
             case 'braintree':
                 await baintreePayment(req, res);
-                break;
+                return;
+            default:
+                responseError(res, {error: 'payment should be papay or braintree'}, 'payment')
+                return;
         }
     } catch (err) {
-        responseError(res, err, 'add_record')
+        responseError(res, err, 'payment')
     }
 })
 
