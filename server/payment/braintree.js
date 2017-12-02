@@ -16,12 +16,13 @@ var midMap = {
 
 async function salse(price, nonce, merchantAccountId, option = {}) {
     return new Promise((resolve, reject) => {
-        gateway.transaction.sale({
-            amount: price,
+        var saleOption = {
+            amount: Number(price).toFixed(2),
             paymentMethodNonce: nonce,
             merchantAccountId: merchantAccountId,
             ...option
-        }, function (err, result) {
+        };
+        gateway.transaction.sale(saleOption, function (err, result) {  
             if (err) {
                 reject(err)
             } else if (result.success) {
@@ -33,7 +34,11 @@ async function salse(price, nonce, merchantAccountId, option = {}) {
     })
 }
 
+function findMerchantAccountId(code) {
+    return midMap[code];
+}
 
 export default {
-    salse
+    salse,
+    findMerchantAccountId
 }

@@ -2,10 +2,10 @@ import $ from 'jquery';
 import Config from '../config';
 var baseUrl = Config.BASE_URL
 function ajax(url, method, param, err, suc, log = true) {
-    if(log){
+    if (log) {
         console.log(`ajax, url: ${url}`);
         console.log(`ajax, method: ${method}`);
-        console.log(`ajax, param`,param);
+        console.log(`ajax, param`, param);
     }
     $.ajax({
         url: url,
@@ -14,10 +14,15 @@ function ajax(url, method, param, err, suc, log = true) {
         success: function (result, status, xhr) {
             if (log)
                 console.log(`AJAX (SUCCESS):\nStatus: ${status}\nResult:\n${JSON.stringify(result)}`);
-            try {
-                suc(JSON.parse(result));
-            } catch (error) {
-                suc(result);
+            // try {
+            //     suc(JSON.parse(result));
+            // } catch (error) {
+            //     suc(result);
+            // }
+            if (result.status == 1) {
+                suc(result, status, xhr);
+            } else {
+                err(result, status, xhr);
             }
         },
         error: function (xhr, status, error) {

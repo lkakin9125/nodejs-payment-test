@@ -1,7 +1,7 @@
 import Store from '../redux';
 import Config from '../../config.js';
 import Network from '../../util/network';
-
+import braintree from 'braintree-web';
 function getState() {
     return Store.getState();
 }
@@ -28,7 +28,7 @@ function braintreePayment(paymentRecord, creditCard, onErr, onSucc) {
             // Send response.creditCards[0].nonce to your server
             console.log('braintreePayment, done', response);
             paymentRecord.nonce = response.creditCards[0].nonce;
-            Network.ajaxApi('/payment', 'post', paymentRecord, onErr, onSucc);
+            Network.ajaxApi('payment', 'post', paymentRecord, onErr, onSucc);
         });
     });
 }

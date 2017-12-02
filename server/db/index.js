@@ -6,12 +6,8 @@ import bluebird, {
     Promise,
     reject
 } from 'bluebird';
-import {
-    throws
-} from 'assert';
-import {
-    resolve
-} from 'dns';
+
+
 const ALL_PAYMENT_RECORD_KEY = "all_payment_record";
 const LAST_UPDATE_KEY = "last_update";
 
@@ -139,7 +135,7 @@ async function getRecord(recordKey) {
  */
 async function getLastUpdate() {
     return new Promise((resolve, reject) => {
-        redisClient.hgetall(LAST_UPDATE_KEY, (err, data) => {
+        redisClient.get(LAST_UPDATE_KEY, (err, data) => {
             if (err) {
                 reject(err);
             } else {
@@ -150,8 +146,9 @@ async function getLastUpdate() {
 }
 
 async function updateRefNum(recordKey, refNum) {
-    return new Promise((resovle, reject) => {
-        redisClient.hset(recordKey, 'refNum', refNum, (err, data) => {
+    console.log(`updateRefNum, recordKey:${recordKey}, refNum: ${refNum}`);
+    return new Promise((resolve, reject) => {
+        redisClient.hmset(recordKey, { refNum }, (err, data) => {
             if (err) {
                 reject(err);
             } else {
@@ -161,6 +158,20 @@ async function updateRefNum(recordKey, refNum) {
     })
 }
 
+async function testHset() {
+    return new Promise(async (resovle, reject) => {
+        var key = 'record:1512181020548:Tom:paypal', refNum = 'aaaa';
+
+        var record = await getRecord(key);
+        console.log('record', record);
+        redisClient.hmset(key, { refNum }, (err, data) => {
+            console.log('data', data);
+            resovle()
+        })
+
+    });
+
+}
 
 export default {
     startScheduleBackup,
@@ -169,5 +180,6 @@ export default {
     getAllRecord,
     getRecord,
     getLastUpdate,
-    updateRefNum
+    updateRefNum,
+    testHset
 }

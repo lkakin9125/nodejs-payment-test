@@ -4,7 +4,9 @@ import CreatePaymentForm from '../component/createPayment/CreatePaymentForm';
 import AutoBind from 'react-autobind'
 import CardValidate from 'credit-card-validation';
 import Payment from '../model/dao/Payment';
-export default class CreatePaymentPage extends React.Component {
+import Button from 'material-ui/Button';
+import { withRouter } from 'react-router'
+class CreatePaymentPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +28,7 @@ export default class CreatePaymentPage extends React.Component {
             },
             paymentSection: {
                 cardHolderName: 'Tom',
-                cardNumber: '378282246310005',
+                cardNumber: '4012888888881881',
                 cardExpiration: '2020-01-01',
                 ccv: '123'
             }
@@ -37,6 +39,38 @@ export default class CreatePaymentPage extends React.Component {
 
     componentWillMount() {
         UI.setTitle('Create Payment')
+    }
+
+    componentDidMount() {
+        if (this.props.match) {
+            if (this.props.match.path.indexOf('/success') >= 0 && this.props.match.params && this.props.match.params.refNum) {
+                var action = (
+                    <Button
+                        key="ok"
+                        color="primary"
+                        onClick={() => {
+                            UI.closeMessageDialog();
+                            this.props.history.push('/');
+                        }}>
+                        OK
+                    </Button>
+                )
+                UI.showMessageDialog(`The payment (ref no: ${this.props.match.params.refNum}) is success`, "Payment", [action])
+            } else if (this.props.match.path.indexOf('/fail') >= 0) {
+                var action = (
+                    <Button
+                        key="ok"
+                        color="primary"
+                        onClick={() => {
+                            UI.closeMessageDialog();
+                            this.props.history.push('/');
+                        }}>
+                        OK
+                    </Button>
+                )
+                UI.showMessageDialog(`Sorry, the payment is fail`, "Payment", [action])
+            }
+        }
     }
 
     handleTextChange(key, event) {
@@ -82,7 +116,7 @@ export default class CreatePaymentPage extends React.Component {
                 UI.showMessageDialog('AMEX is possible to use only for USD', 'Error');
                 return;
             }
-
+            UI.setLoadingDialogOpen(true, "payment");
             if (cardType == 'amex' || currency == 'USD' || currency == 'EUR' || currency == 'AUD') {
                 payment = "paypal";
             }
@@ -90,8 +124,16 @@ export default class CreatePaymentPage extends React.Component {
                 console.error('payment err');
                 console.error(err);
                 UI.showMessageDialog('Network Error');
+                UI.setLoadingDialogOpen(false);
             }, (res) => {
                 console.log('payment success', res);
+                
+                if (payment == "paypal") {
+                    window.location.href = res.approvalUrl
+                } else {
+                    this.props.history.push(`/success/${res.refNum}`);
+                    UI.setLoadingDialogOpen(false);
+                }
             })
         }
     }
@@ -111,6 +153,7 @@ export default class CreatePaymentPage extends React.Component {
         this.setState({ currSection: toSection });
     }
     render() {
+        console.log('render', this.props);
         return (
             <div className="app-page">
                 <CreatePaymentForm
@@ -124,3 +167,5 @@ export default class CreatePaymentPage extends React.Component {
         )
     }
 }
+
+export default withRouter(CreatePaymentPage);

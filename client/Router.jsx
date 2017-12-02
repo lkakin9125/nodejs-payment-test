@@ -10,6 +10,8 @@ export default class MyRouter extends React.Component {
                 <App>
                     <Route path="/" exact component={CreatePaymentPage} />
                     <Route path="/record_check" component={RecordCheckPage} />
+                    <Route path="/success/:refNum" component={CreatePaymentPage} />
+                    <Route path="/fail" component={CreatePaymentPage} />
                 </App>
             </Router>
         )

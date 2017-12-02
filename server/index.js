@@ -25,10 +25,19 @@ function responseError(res, errors, tag) {
     });
 }
 
+function successApiResponse(res, object) {
+    object.status = 1;
+    res.send(object);
+}
 
 
 
-app.get(`${ServerConfig.apiSubPath}/test`, (req, res) => {
+app.get(`${ServerConfig.apiSubPath}/test`, async (req, res) => {
+    // res.send({
+    //     test: 'it is test2'
+    // });
+    // await DbObject.updateRefNum('record:1512181020548:Tom:paypal', 'PAY-6P302446Y0724240LLIRA2HQ');
+    await DbObject.testHset();
     res.send({
         test: 'it is test2'
     });
@@ -37,10 +46,8 @@ app.get(`${ServerConfig.apiSubPath}/test`, (req, res) => {
 app.get(`${ServerConfig.apiSubPath}/get_all_record`, async (req, res) => {
     try {
         var records = await DbObject.getAllRecord();
-        res.send({
-            status: 1,
-            records
-        });
+        var lastUpdateTime = await DbObject.getLastUpdate();
+        successApiResponse(res, { records,lastUpdateTime })
     } catch (err) {
         responseError(res, err, 'get_all_record')
     }
@@ -48,10 +55,10 @@ app.get(`${ServerConfig.apiSubPath}/get_all_record`, async (req, res) => {
 
 async function paypalPayment(req, res) {
     // console.log(`add_record, req.body: ${JSON.stringify(req.body)}`);
-    var {recordKey} = await DbObject.addPaymentRecord(req.body);
+    var { recordKey } = await DbObject.addPaymentRecord(req.body);
     var host = req.get('host');
-    var successUrl = `http://${host}${ServerConfig.paypalSubPath}/success/${encodeURIComponent(recordKey)}`;
-    var failUrl = `http://${host}${ServerConfig.paypalSubPath}/fail/${encodeURIComponent(recordKey)}`;
+    var successUrl = `http://${host}${ServerConfig.paypalSubPath}/success/${encodeURIComponent(recordKey)}/paypal`;
+    var failUrl = `http://${host}${ServerConfig.paypalSubPath}/fail/${encodeURIComponent(recordKey)}/paypal`;
     var items = [{
         "name": 'Payment Form',
         "sku": '001',
@@ -59,22 +66,22 @@ async function paypalPayment(req, res) {
         "currency": req.body.currency,
         "quantity": 1
     }]
-// console.log('recordKey',recordKey);
+    // console.log('recordKey',recordKey);
     var { approvalUrl } = await Paypal.redirecToPayment(successUrl, failUrl, items, 'it is a payment form');
     if (approvalUrl) {
-        res.send({ approvalUrl });
+        successApiResponse(res, { approvalUrl });
     } else {
         responseError(res, 'approval url is null', 'add_record')
     }
 }
 async function baintreePayment(req, res) {
-    var result = await Braintree.salse(req.price, req.nonce);
+    var result = await Braintree.salse(req.body.price, req.body.nonce, Braintree.findMerchantAccountId(req.body.currency));
     var record = {
         ...req.body,
-        refNum: result.id
+        refNum: result.transaction.id
     }
     await DbObject.addPaymentRecord(req.body);
-    res.send({ status: 1 });
+    successApiResponse(res, { refNum: result.transaction.id });
 }
 
 app.post(`${ServerConfig.apiSubPath}/payment`, Validation.paymentCheck(), async (req, res) => {
@@ -102,22 +109,35 @@ app.post(`${ServerConfig.apiSubPath}/payment`, Validation.paymentCheck(), async 
     }
 })
 
-app.get(`${ServerConfig.paypalSubPath}/success/:recordKey`, async (req, res) => {
+app.get(`${ServerConfig.paypalSubPath}/success/:recordKey/paypal`, async (req, res) => {
+    console.log('payal success, params', req.params);
+    console.log('payal success, req.query', req.query);
     var record = await DbObject.getRecord(req.params.recordKey);
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
     try {
+        console.log('enter executePayment')
         await Paypal.executePayment(paymentId, payerId, record.currency, record.price);
-        DbObject.updateRefNum(req.params.recordKey, paymentId);
-        res.send('paypal done');
+        console.log('executePayment done')
     } catch (err) {
-        responseError(res, err, `${ServerConfig.paypalSubPath}/success/${req.params.recordKey}`);
+        console.error('payment fail', err)
+        res.redirect('/fail');
+        return;
+
     }
+    try {
+        console.log('update db start');
+        await DbObject.updateRefNum(req.params.recordKey, paymentId);
+        console.log('update db done');
+    } catch (err) {
+        console.error('payment success, but db err', err);
+    }
+    res.redirect(`/success/${payerId}`);
 })
 
-app.get(`${ServerConfig.paypalSubPath}/fail/:recordKey`, (req, res) => {
-
-    res.send(`req.params.recordKey: ${req.params.recordKey}`);
+app.get(`${ServerConfig.paypalSubPath}/fail/:recordKey/paypal`, (req, res) => {
+    console.error('paypal fail', req)
+    res.redirect(`/fail`);
 
 })
 
@@ -125,6 +145,7 @@ app.get(`${ServerConfig.apiSubPath}/url`, (req, res) => {
     var host = req.get('host');
     res.send(`host: ${host}`);
 });
+
 
 //default route
 app.get('*', (req, res) => {
