@@ -112,7 +112,7 @@ class CreatePaymentPage extends React.Component {
             var cardType = CardValidate(cardNumber).getType();
             var payment = 'braintree';
             var { currency, name, price, phone } = this.state.orderSection;
-            price = price.replaceAll(',','');
+            price = price.replaceAll(',', '');
             if (cardType == 'amex' && currency != 'USD') {
                 UI.showMessageDialog('AMEX is possible to use only for USD', 'Error');
                 return;
@@ -122,13 +122,19 @@ class CreatePaymentPage extends React.Component {
                 payment = "paypal";
             }
             Payment.createPayment(name, phone, currency, price, payment, cardHolderName, cardNumber, ccv, cardExpiration, (err) => {
-                console.error('payment err');
-                console.error(err);
-                UI.showMessageDialog('Network Error');
-                UI.setLoadingDialogOpen(false);
+                if (typeof err == 'object' && err.status == -1) {
+                    console.error('payment is not paypal or braintree')
+                    UI.showMessageDialog('Data Error, Please re-enter your input', "Error");
+                    UI.setLoadingDialogOpen(false);
+                } else {
+                    console.error('payment err');
+                    console.error(err);
+                    UI.showMessageDialog('Network Error', "Error");
+                    UI.setLoadingDialogOpen(false);
+                }
             }, (res) => {
                 console.log('payment success', res);
-                
+
                 if (payment == "paypal") {
                     window.location.href = res.approvalUrl
                 } else {
