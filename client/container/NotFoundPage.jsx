@@ -1,7 +1,7 @@
 import React from 'react';
 import UI from '../model/dao/UI'
 import AutoBind from 'react-autobind'
-import NotFoundView from '../component/base/NotFoundView';
+import NotFoundView from '../component/notFound/NotFoundView';
 
 export default class RecordCheckPage extends React.Component {
     constructor(props) {
