@@ -71,15 +71,14 @@ async function addPaymentRecord(record) {
     // return multi.execAsync();
     return new Promise((resolve, reject) => {
         multi.exec((err, replies) => {
-
             if (err || !replies) {
                 reject(err);
             } else {
+                redisClient.save();
                 resolve({
                     replies,
                     recordKey
                 });
-                redisClient.save();
             }
         })
     })
@@ -148,31 +147,21 @@ async function getLastUpdate() {
 async function updateRefNum(recordKey, refNum) {
     console.log(`updateRefNum, recordKey:${recordKey}, refNum: ${refNum}`);
     return new Promise((resolve, reject) => {
-        redisClient.hmset(recordKey, { refNum }, (err, data) => {
+        var currTime = new Date().getTime()
+        var multi = redisClient.multi();
+        multi.hmset(recordKey, { refNum });
+        multi.set(LAST_UPDATE_KEY, currTime);
+        multi.exec((err, data) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(data);
                 redisClient.save();
+                resolve(data);
             }
         });
     })
 }
 
-async function testHset() {
-    return new Promise(async (resovle, reject) => {
-        var key = 'record:1512181020548:Tom:paypal', refNum = 'aaaa';
-
-        var record = await getRecord(key);
-        console.log('record', record);
-        redisClient.hmset(key, { refNum }, (err, data) => {
-            console.log('data', data);
-            resovle()
-        })
-
-    });
-
-}
 
 export default {
     startScheduleBackup,
@@ -181,6 +170,5 @@ export default {
     getAllRecord,
     getRecord,
     getLastUpdate,
-    updateRefNum,
-    testHset
+    updateRefNum
 }

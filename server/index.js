@@ -33,9 +33,6 @@ function successApiResponse(res, object) {
     res.send(object);
 }
 
-
-
-
 app.get(`${ServerConfig.apiSubPath}/get_all_record`, async (req, res) => {
     try {
         var records = await DbObject.getAllRecord();
