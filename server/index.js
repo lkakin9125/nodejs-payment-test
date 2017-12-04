@@ -108,7 +108,7 @@ app.post(`${ServerConfig.apiSubPath}/payment`, Validation.paymentCheck(), async 
                 return;
             default:
                 console.error('payment not paypal or braintree');
-                res.send({ status: -2, error: 'payment should be papay or braintree' });
+                res.send({ status: -2, errors: 'payment should be papay or braintree' });
                 return;
         }
     } catch (err) {
