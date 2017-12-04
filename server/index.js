@@ -142,7 +142,7 @@ app.get(`${ServerConfig.paypalSubPath}/success/:recordKey/paypal`, async (req, r
     }
 
 
-    res.redirect(`/success/${payerId}`);
+    res.redirect(`/success/${paymentId}`);
 })
 
 app.get(`${ServerConfig.paypalSubPath}/fail/:recordKey/paypal`, (req, res) => {
