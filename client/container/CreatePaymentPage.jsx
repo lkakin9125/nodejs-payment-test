@@ -40,7 +40,9 @@ class CreatePaymentPage extends React.Component {
     componentWillMount() {
         UI.setTitle('Create Payment')
     }
-
+    /**
+     * show the success or fail message if path match
+     */
     componentDidMount() {
         if (this.props.match) {
             if (this.props.match.path.indexOf('/success') >= 0 && this.props.match.params && this.props.match.params.refNum) {
@@ -72,16 +74,32 @@ class CreatePaymentPage extends React.Component {
             }
         }
     }
-
+    /**
+     * handle the text change event
+     * it will be centralize to @see handleChange function
+     * @param {string} key 
+     * @param {*} event 
+     */
     handleTextChange(key, event) {
         this.handleChange(key, event, event.target.value)
     }
+    /**
+     * handle radio button change value event
+     * it will be centralize to @see handleChange function
+     * @param {string} key 
+     * @param {*} event 
+     * @param {*} value 
+     */
     handleRadioButtonChange(key, event, value) {
         this.handleChange(key, event, value)
     }
-
+    /**
+     * update the state by currSection
+     * @param {string} key 
+     * @param {*} event 
+     * @param {*} value 
+     */
     handleChange(key, event, value) {
-
         if (key == 'price') {
             value = `${value}`.replace(/^0+/, '');
         }
@@ -102,6 +120,14 @@ class CreatePaymentPage extends React.Component {
 
         this.setState(nextState);
     }
+    /**
+     * handle form submit 
+     * it will increase the currSection in state until >= this.state.section.length
+     * when currSection >= this.state.section.length
+     * it will separate the payment method according to the rules
+     * and use Payment.js to submit the payment
+     * @param {*} event 
+     */
     handleSubmit(event) {
         event.preventDefault();
         var { currSection, section } = this.state;

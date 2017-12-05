@@ -26,6 +26,9 @@ export default class RecordCheckPage extends React.Component {
         }
         this.keepConnectSocket = true;
     }
+    /**
+     * subscribe the store so that data can be update when Payment.downloadAllRecord no matter by init download or socket.io triggered
+     */
     componentWillMount() {
         this.unSub = Store.subscribe(() => {
             this.filterRecord();
@@ -47,6 +50,11 @@ export default class RecordCheckPage extends React.Component {
     handleTextChange(key, event) {
         this.setState({ [key]: event.target.value }, () => { this.filterRecord() });
     }
+    /**
+     * filter the record
+     * if searchText.length<2 && event is not exist, it wont execute because of avoid laggy
+     * @param {*} event 
+     */
     filterRecord(event) {
         if (event) {
             event.preventDefault();
@@ -60,6 +68,11 @@ export default class RecordCheckPage extends React.Component {
         }
         this.setState({ records });
     }
+    /**
+     * handle the item select on list
+     * it will create the dialog state according to record
+     * @param {object} record 
+     */
     onSelectItem(record) {
         var dialog = {
             ...this.initDialog,
@@ -69,6 +82,9 @@ export default class RecordCheckPage extends React.Component {
         }
         this.setState({ dialog });
     }
+    /**
+     * close the dialog handling
+     */
     onDialogClose() {
         var nextDialogState = this.state.dialog;
         nextDialogState.open = false;
