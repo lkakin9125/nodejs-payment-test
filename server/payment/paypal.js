@@ -17,7 +17,6 @@ paypal.configure({
  * @return {Promise} it will resolve with an object: {approvalUrl,payment} which approvalUrl is the url to payment and payment is the raw response from PayPal.
  */
 async function redirecToPayment(successUrl, cancelUrl, items, description) {
-    console.log('redirecToPayment',items);
     if (items.length <= 0) {
         throw 'PayPal redirecToPayment, items is empty'
     }

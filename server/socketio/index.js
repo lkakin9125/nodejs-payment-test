@@ -8,8 +8,6 @@ var clientMap = {};
 function init(server) {
     io = require('socket.io', { rememberTransport: false, transports: ['WebSocket', 'Flash Socket', 'AJAX long-polling'] })(server);
     io.on('connection', (client) => {
-
-        console.log(`on connection, client.ip : `, client);
         var time = new Date().getTime();
         clientMap[`${time}`] = client;
 

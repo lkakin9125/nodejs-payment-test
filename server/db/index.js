@@ -145,7 +145,6 @@ async function getLastUpdate() {
 }
 
 async function updateRefNum(recordKey, refNum) {
-    console.log(`updateRefNum, recordKey:${recordKey}, refNum: ${refNum}`);
     return new Promise((resolve, reject) => {
         var currTime = new Date().getTime()
         var multi = redisClient.multi();

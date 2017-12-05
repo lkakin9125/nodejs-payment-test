@@ -117,15 +117,11 @@ app.post(`${ServerConfig.apiSubPath}/payment`, Validation.paymentCheck(), async 
 })
 
 app.get(`${ServerConfig.paypalSubPath}/success/:recordKey/paypal`, async (req, res) => {
-    console.log('payal success, params', req.params);
-    console.log('payal success, req.query', req.query);
     var record = await DbObject.getRecord(req.params.recordKey);
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
     try {
-        console.log('enter executePayment')
         await Paypal.executePayment(paymentId, payerId, record.currency, record.price);
-        console.log('executePayment done')
     } catch (err) {
         console.error('payment fail', err)
         res.redirect('/fail');
@@ -133,10 +129,8 @@ app.get(`${ServerConfig.paypalSubPath}/success/:recordKey/paypal`, async (req, r
 
     }
     try {
-        console.log('update db start');
         await DbObject.updateRefNum(req.params.recordKey, paymentId);
         sendLastUpdateToAllClient();
-        console.log('update db done');
     } catch (err) {
         console.error('payment success, but db err', err);
     }
