@@ -1,3 +1,6 @@
+.loading-view{
+  overflow: hidden;
+}
 .valign, .valign *{
 vertical-align: middle;
 }
